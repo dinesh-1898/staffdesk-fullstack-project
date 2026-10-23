@@ -1,0 +1,14 @@
+# Local test: PostgreSQL + backend. Run frontend separately with `npm run dev`.
+services:
+  db:
+    image: postgres:15
+    environment: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: staffdesk }
+    ports: ["5432:5432"]
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: postgres
+      JWT_SECRET: local-secret
+    ports: ["5000:5000"]
+    depends_on: [db]
